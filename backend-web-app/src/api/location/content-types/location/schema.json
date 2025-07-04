@@ -17,8 +17,8 @@
     "statuslocation": {
       "type": "string"
     },
-    "floor": {
-      "type": "integer"
+    "floorlocation": {
+      "type": "string"
     }
   }
 }
