@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parking_registration_details",
+  "info": {
+    "singularName": "parking-registration-detail",
+    "pluralName": "parking-registration-details",
+    "displayName": "ParkingRegistrationDetail"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "prid": {
+      "type": "string"
+    },
+    "stt": {
+      "type": "integer"
+    },
+    "vehicleid": {
+      "type": "string"
+    },
+    "licenseplate": {
+      "type": "string"
+    },
+    "vehicleregistration": {
+      "type": "string"
+    },
+    "entrytime": {
+      "type": "datetime"
+    },
+    "locationid": {
+      "type": "string"
+    },
+    "qrcode": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "parking_registration": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::parking-registration.parking-registration",
+      "inversedBy": "parking_registration_details"
+    },
+    "location": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::location.location"
+    }
+  }
+}

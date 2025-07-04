@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "linked_bank_accounts",
+  "info": {
+    "singularName": "linked-bank-account",
+    "pluralName": "linked-bank-accounts",
+    "displayName": "LinkedBankAccount"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customerid": {
+      "type": "string"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "linked_bank_accounts"
+    },
+    "bankname": {
+      "type": "string"
+    },
+    "accountholder": {
+      "type": "string"
+    },
+    "accountnumber": {
+      "type": "string"
+    },
+    "linkdate": {
+      "type": "datetime"
+    },
+    "isdefault": {
+      "type": "boolean",
+      "default": true
+    },
+    "statusaccount": {
+      "type": "string"
+    }
+  }
+}

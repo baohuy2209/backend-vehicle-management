@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parking_checkouts",
+  "info": {
+    "singularName": "parking-checkout",
+    "pluralName": "parking-checkouts",
+    "displayName": "ParkingCheckout"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "prid": {
+      "type": "string"
+    },
+    "parking_registration": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::parking-registration.parking-registration",
+      "inversedBy": "parking_checkout"
+    },
+    "vehicleid": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "licenseplate": {
+      "type": "string"
+    },
+    "actualexittime": {
+      "type": "datetime"
+    }
+  }
+}

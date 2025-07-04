@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "parking_registrations",
+  "info": {
+    "singularName": "parking-registration",
+    "pluralName": "parking-registrations",
+    "displayName": "ParkingRegistration"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customerid": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "parking_registrations"
+    },
+    "parking_registration_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::parking-registration-detail.parking-registration-detail",
+      "mappedBy": "parking_registration"
+    },
+    "parking_checkout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::parking-checkout.parking-checkout",
+      "mappedBy": "parking_registration"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_infos",
+  "info": {
+    "singularName": "vehicle-info",
+    "pluralName": "vehicle-infos",
+    "displayName": "VehicleInfo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customerid": {
+      "type": "string"
+    },
+    "vehiclestatus": {
+      "type": "string"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "vehicle_infos"
+    },
+    "licenseplate": {
+      "type": "string"
+    },
+    "vehicleregistration": {
+      "type": "string"
+    }
+  }
+}
