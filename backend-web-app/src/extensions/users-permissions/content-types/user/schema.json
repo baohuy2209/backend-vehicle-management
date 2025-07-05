@@ -66,38 +66,10 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "fullname": {
-      "type": "string"
-    },
-    "citizenid": {
-      "type": "string"
-    },
-    "phone": {
-      "type": "string"
-    },
-    "linked_bank_accounts": {
+    "customer": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::linked-bank-account.linked-bank-account",
-      "mappedBy": "user"
-    },
-    "parking_registrations": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::parking-registration.parking-registration",
-      "mappedBy": "user"
-    },
-    "vehicle_infos": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::vehicle-info.vehicle-info",
-      "mappedBy": "users_permissions_user"
-    },
-    "payments": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::payment.payment",
-      "mappedBy": "users_permissions_user"
+      "relation": "oneToOne",
+      "target": "api::customer.customer"
     }
   }
 }

@@ -11,14 +11,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "prid": {
-      "type": "string"
-    },
     "stt": {
       "type": "integer"
-    },
-    "vehicleid": {
-      "type": "string"
     },
     "licenseplate": {
       "type": "string"
@@ -28,16 +22,6 @@
     },
     "entrytime": {
       "type": "datetime"
-    },
-    "locationid": {
-      "type": "string"
-    },
-    "qrcode": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images"
-      ]
     },
     "parking_registration": {
       "type": "relation",
@@ -49,6 +33,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::location.location"
+    },
+    "floor": {
+      "type": "string"
+    },
+    "position": {
+      "type": "string"
     }
   }
 }

@@ -11,9 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "customerid": {
-      "type": "string"
-    },
     "name": {
       "type": "string"
     },
@@ -26,12 +23,6 @@
     "description": {
       "type": "text"
     },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "parking_registrations"
-    },
     "parking_registration_details": {
       "type": "relation",
       "relation": "oneToMany",
@@ -43,6 +34,12 @@
       "relation": "oneToOne",
       "target": "api::parking-checkout.parking-checkout",
       "mappedBy": "parking_registration"
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::customer.customer",
+      "inversedBy": "parking_registrations"
     }
   }
 }

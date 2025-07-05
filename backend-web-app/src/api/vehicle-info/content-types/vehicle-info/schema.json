@@ -17,17 +17,17 @@
     "vehiclestatus": {
       "type": "string"
     },
-    "users_permissions_user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "vehicle_infos"
-    },
     "licenseplate": {
       "type": "string"
     },
     "vehicleregistration": {
       "type": "string"
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::customer.customer",
+      "inversedBy": "vehicle_infos"
     }
   }
 }

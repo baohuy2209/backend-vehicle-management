@@ -373,6 +373,51 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
+  collectionName: 'customers';
+  info: {
+    displayName: 'Customer';
+    pluralName: 'customers';
+    singularName: 'customer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    citizenid: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    fullname: Schema.Attribute.String;
+    linked_bank_accounts: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::linked-bank-account.linked-bank-account'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::customer.customer'
+    > &
+      Schema.Attribute.Private;
+    parking_registrations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::parking-registration.parking-registration'
+    >;
+    password: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    username: Schema.Attribute.String;
+    vehicle_infos: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::vehicle-info.vehicle-info'
+    >;
+  };
+}
+
 export interface ApiLinkedBankAccountLinkedBankAccount
   extends Struct.CollectionTypeSchema {
   collectionName: 'linked_bank_accounts';
@@ -391,6 +436,7 @@ export interface ApiLinkedBankAccountLinkedBankAccount
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    customer: Schema.Attribute.Relation<'manyToOne', 'api::customer.customer'>;
     customerid: Schema.Attribute.String;
     isdefault: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     linkdate: Schema.Attribute.DateTime;
@@ -405,10 +451,6 @@ export interface ApiLinkedBankAccountLinkedBankAccount
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -495,6 +537,7 @@ export interface ApiParkingRegistrationDetailParkingRegistrationDetail
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     entrytime: Schema.Attribute.DateTime;
+    floor: Schema.Attribute.String;
     licenseplate: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -503,19 +546,16 @@ export interface ApiParkingRegistrationDetailParkingRegistrationDetail
     > &
       Schema.Attribute.Private;
     location: Schema.Attribute.Relation<'oneToOne', 'api::location.location'>;
-    locationid: Schema.Attribute.String;
     parking_registration: Schema.Attribute.Relation<
       'manyToOne',
       'api::parking-registration.parking-registration'
     >;
-    prid: Schema.Attribute.String;
+    position: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    qrcode: Schema.Attribute.Media<'images'>;
     stt: Schema.Attribute.Integer;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    vehicleid: Schema.Attribute.String;
     vehicleregistration: Schema.Attribute.String;
   };
 }
@@ -535,7 +575,7 @@ export interface ApiParkingRegistrationParkingRegistration
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    customerid: Schema.Attribute.String;
+    customer: Schema.Attribute.Relation<'manyToOne', 'api::customer.customer'>;
     description: Schema.Attribute.Text;
     email: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -558,10 +598,6 @@ export interface ApiParkingRegistrationParkingRegistration
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -600,10 +636,6 @@ export interface ApiPaymentPayment extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -621,6 +653,7 @@ export interface ApiVehicleInfoVehicleInfo extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    customer: Schema.Attribute.Relation<'manyToOne', 'api::customer.customer'>;
     customerid: Schema.Attribute.String;
     licenseplate: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -633,10 +666,6 @@ export interface ApiVehicleInfoVehicleInfo extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     vehicleregistration: Schema.Attribute.String;
     vehiclestatus: Schema.Attribute.String;
   };
@@ -1100,39 +1129,28 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    citizenid: Schema.Attribute.String;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    customer: Schema.Attribute.Relation<'oneToOne', 'api::customer.customer'>;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    fullname: Schema.Attribute.String;
-    linked_bank_accounts: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::linked-bank-account.linked-bank-account'
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
-    parking_registrations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::parking-registration.parking-registration'
-    >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    payments: Schema.Attribute.Relation<'oneToMany', 'api::payment.payment'>;
-    phone: Schema.Attribute.String;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1149,10 +1167,6 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 3;
       }>;
-    vehicle_infos: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::vehicle-info.vehicle-info'
-    >;
   };
 }
 
@@ -1166,6 +1180,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::customer.customer': ApiCustomerCustomer;
       'api::linked-bank-account.linked-bank-account': ApiLinkedBankAccountLinkedBankAccount;
       'api::location.location': ApiLocationLocation;
       'api::parking-checkout.parking-checkout': ApiParkingCheckoutParkingCheckout;

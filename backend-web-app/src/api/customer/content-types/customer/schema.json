@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "customers",
+  "info": {
+    "singularName": "customer",
+    "pluralName": "customers",
+    "displayName": "Customer"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "citizenid": {
+      "type": "string"
+    },
+    "fullname": {
+      "type": "string"
+    },
+    "username": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "password": {
+      "type": "string"
+    },
+    "parking_registrations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::parking-registration.parking-registration",
+      "mappedBy": "customer"
+    },
+    "linked_bank_accounts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::linked-bank-account.linked-bank-account",
+      "mappedBy": "customer"
+    },
+    "vehicle_infos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::vehicle-info.vehicle-info",
+      "mappedBy": "customer"
+    }
+  }
+}
